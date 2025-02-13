@@ -1,34 +1,37 @@
 # How to use
-Утиліта створює MVP модуль у вибраній директорії. Для цього потрібно:
-1. Вибрати ПКМ -> Create -> "MVP Creator";
-2. Ввести назву MVP модуля;
-3. При необхідності замінити шлях створення модуля;
-4. Натиснути "Genetate MVP Module".
+The utility creates an MVP module in the selected directory. To do this, you need to:
+1. Right-click -> Create -> "MVP Creator";
+2. Enter the name of the MVP module;
+3. If necessary, change the module creation path;
+4. Click "Generate MVP Module".
 
-Має згенеруватися папка з 4 файлами: {BaseName}Model, {BaseName}View, {BaseName}Presenter, {BaseName}Manager.
+A folder with 4 files should be generated: {BaseName}Model, {BaseName}View, {BaseName}Presenter, {BaseName}Manager.
 
-Щоб додати модуль на об'єкт - необхідно додати лише Manager. 
+To add the module to the object, only the Manager needs to be added.
+
 # MVP Creator
-Відповідає за створення MVP модуля.
+Responsible for creating the MVP module.
 
-Створює 4 файли:
-- Manager - ініціалізація інших членів модуля. Є вхідною точкою для передачі даних з інспектора і точкою доступу до Presenter іншими модулями. Успадковується від IBootstrapable, що дозволяє ініціалізувати модуль в певній черзі;
-- Model - збереження дані необхідних для роботи модуля;
-- View - введення і виведення даних. Успадковується від MonoBehaviour, що дозволяє отримати доступ до його функціоналу з Presenter;
-- Presenter - логіка модуля. Має доступ до View та Model для роботи. Не має доступу до Manager.
+Creates 4 files:
+- Manager - initializes other members of the module. It is the entry point for data transfer from the inspector and the access point to the Presenter by other modules. Inherits from IBootstrapable, which allows initializing the module in a certain order;
+- Model - stores data necessary for the module's operation;
+- View - inputs and outputs data. Inherits from MonoBehaviour, which allows access to its functionality from the Presenter;
+- Presenter - module logic. Has access to View and Model for operation. Does not have access to Manager.
+
 # Bootstrap
-Відповідає за послідовну ініціалізацію MVP модулей.
+Responsible for the sequential initialization of MVP modules.
 
-При додаванні модуля на об'єкт автоматично додається Bootstrap. 
+When adding a module to an object, Bootstrap is automatically added.
 
-Він надає масив, куди можна додати IBootstrapable об'єкти тим самим встановивши порядок ініціалізації за приорітетністтю починаючи з 0.
+It provides an array where IBootstrapable objects can be added, thus setting the order of initialization by priority starting from 0.
 
-Сам Bootstrap є IBootstrapable, що дозволяє задавати порядок ініціалізації не тільки компонентів, а і об'єктів, на яких він знаходиться.
+Bootstrap itself is IBootstrapable, which allows setting the initialization order not only of components but also of the objects on which it resides.
+
 # Additional
-Якщо для Presenter необхідні методи MonoBehaviour такі як Awake, Start, Update тощо, можливо додати `event` для їх обробки. 
+If the Presenter needs MonoBehaviour methods such as Awake, Start, Update, etc., it is possible to add an `event` for their handling.
 
 **View**
-```c-sharp
+```csharp
 public class View : MonoBehaviour
 {
     public event Action OnFixedUpdate;
@@ -41,7 +44,7 @@ public class View : MonoBehaviour
 ```
 
 **Presenter**
-```c-sharp
+```csharp
 public class Presenter
 {
     private Model _model;
