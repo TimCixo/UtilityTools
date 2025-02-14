@@ -1,13 +1,15 @@
-public class MvpCreatorModel
+namespace MvpCreator
 {
-    public string ModuleName { get; set; }
-    public string Namespace { get; set; }
-    public string FolderPath { get; set; }
-
-    public string GetModelTemplate()
+    public class MvpCreatorModel
     {
-        return
-$@"using UnityEngine;
+        public string ModuleName { get; set; }
+        public string Namespace { get; set; }
+        public string FolderPath { get; set; }
+
+        public string GetModelTemplate()
+        {
+            return
+    $@"using UnityEngine;
 
 namespace {Namespace}
 {{
@@ -16,12 +18,12 @@ namespace {Namespace}
         // Model properties and logic here
     }}
 }}";
-    }
+        }
 
-    public string GetViewTemplate()
-    {
-        return
-$@"using UnityEngine;
+        public string GetViewTemplate()
+        {
+            return
+    $@"using UnityEngine;
 
 namespace {Namespace}
 {{
@@ -30,12 +32,12 @@ namespace {Namespace}
         // View components and UI handling here
     }}
 }}";
-    }
+        }
 
-    public string GetPresenterTemplate()
-    {
-        return
-$@"using UnityEngine;
+        public string GetPresenterTemplate()
+        {
+            return
+    $@"using UnityEngine;
 
 namespace {Namespace}
 {{
@@ -53,12 +55,12 @@ namespace {Namespace}
         // Presenter logic here
     }}
 }}";
-    }
+        }
 
-    public string GetManagerTemplate()
-    {
-        return
-$@"using UnityEngine;
+        public string GetManagerTemplate()
+        {
+            return
+    $@"using UnityEngine;
 
 namespace {Namespace}
 {{
@@ -89,5 +91,6 @@ namespace {Namespace}
         // Manager logic here
     }}
 }}";
+        }
     }
 }

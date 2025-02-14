@@ -1,30 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bootstrap : MonoBehaviour, IBootstrapable
+namespace MvpCreator
 {
-    [SerializeField, Tooltip("Is this object bootstrapable?")]
-    private bool _isBootstrapable;
-    [SerializeField, Tooltip("Components to bootstrap")]
-    private List<MonoBehaviour> _components = new List<MonoBehaviour>();
-
-    private void Awake()
+    public class Bootstrap : MonoBehaviour, IBootstrapable
     {
-        if (_isBootstrapable)
+        [SerializeField, Tooltip("Is this object bootstrapable?")]
+        private bool _isBootstrapable;
+        [SerializeField, Tooltip("Components to bootstrap")]
+        private List<MonoBehaviour> _components = new List<MonoBehaviour>();
+
+        private void Awake()
         {
-            return;
+            if (_isBootstrapable)
+            {
+                return;
+            }
+
+            BootstrapInit();
         }
 
-        BootstrapInit();
-    }
-
-    public void BootstrapInit()
-    {
-        foreach (MonoBehaviour component in _components)
+        public void BootstrapInit()
         {
-            if (component is IBootstrapable bootstrapable)
+            foreach (MonoBehaviour component in _components)
             {
-                bootstrapable.BootstrapInit();
+                if (component is IBootstrapable bootstrapable)
+                {
+                    bootstrapable.BootstrapInit();
+                }
             }
         }
     }

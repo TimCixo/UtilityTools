@@ -2,53 +2,56 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 
-public class MvpCreatorPresenter
+namespace MvpCreator
 {
-    private MvpCreatorModel _model;
-    private MvpCreatorView _view;
-    
-    public MvpCreatorPresenter(MvpCreatorModel model, MvpCreatorView view)
+    public class MvpCreatorPresenter
     {
-        _model = model;
-        _view = view;
+        private MvpCreatorModel _model;
+        private MvpCreatorView _view;
 
-        _view.OnCreate += CreateMvpScripts;
-    }
-
-    public void OnGUI()
-    {
-        _view.DrawUI(_model);
-    }
-
-    public void CreateMvpScripts()
-    {
-        string modulePath = Path.Combine(_model.FolderPath, _model.ModuleName);
-        
-        if (!Directory.Exists(modulePath))
+        public MvpCreatorPresenter(MvpCreatorModel model, MvpCreatorView view)
         {
-            Directory.CreateDirectory(modulePath);
+            _model = model;
+            _view = view;
+
+            _view.OnCreate += CreateMvpScripts;
         }
 
-        CreateScript(modulePath, _model.ModuleName + "Model.cs", _model.GetModelTemplate());
-        CreateScript(modulePath, _model.ModuleName + "View.cs", _model.GetViewTemplate());
-        CreateScript(modulePath, _model.ModuleName + "Presenter.cs", _model.GetPresenterTemplate());
-        CreateScript(modulePath, _model.ModuleName + "Manager.cs", _model.GetManagerTemplate());
-
-        AssetDatabase.Refresh();
-    }
-
-    private void CreateScript(string folderPath, string fileName, string content)
-    {
-        string fullPath = Path.Combine(folderPath, fileName);
-
-        if (!File.Exists(fullPath))
+        public void OnGUI()
         {
-            File.WriteAllText(fullPath, content);
-            Debug.Log($"{fileName} created at {fullPath}");
+            _view.DrawUI(_model);
         }
-        else
+
+        public void CreateMvpScripts()
         {
-            Debug.LogWarning($"{fileName} already exists at {fullPath}");
+            string modulePath = Path.Combine(_model.FolderPath, _model.ModuleName);
+
+            if (!Directory.Exists(modulePath))
+            {
+                Directory.CreateDirectory(modulePath);
+            }
+
+            CreateScript(modulePath, _model.ModuleName + "Model.cs", _model.GetModelTemplate());
+            CreateScript(modulePath, _model.ModuleName + "View.cs", _model.GetViewTemplate());
+            CreateScript(modulePath, _model.ModuleName + "Presenter.cs", _model.GetPresenterTemplate());
+            CreateScript(modulePath, _model.ModuleName + "Manager.cs", _model.GetManagerTemplate());
+
+            AssetDatabase.Refresh();
+        }
+
+        private void CreateScript(string folderPath, string fileName, string content)
+        {
+            string fullPath = Path.Combine(folderPath, fileName);
+
+            if (!File.Exists(fullPath))
+            {
+                File.WriteAllText(fullPath, content);
+                Debug.Log($"{fileName} created at {fullPath}");
+            }
+            else
+            {
+                Debug.LogWarning($"{fileName} already exists at {fullPath}");
+            }
         }
     }
 }

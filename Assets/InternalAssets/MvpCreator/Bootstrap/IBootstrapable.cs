@@ -1,4 +1,7 @@
-public interface IBootstrapable
+namespace MvpCreator
 {
-    public void BootstrapInit();
+    public interface IBootstrapable
+    {
+        public void BootstrapInit();
+    }
 }
