@@ -1,18 +1,15 @@
 public class MvpCreatorModel
 {
-    private string _baseName;
-
-    public MvpCreatorModel(string baseName)
-    {
-        _baseName = baseName;
-    }
+    public string ModuleName { get; set; }
+    public string Namespace { get; set; }
+    public string FolderPath { get; set; }
 
     public string GetModelTemplate()
     {
         return
 $@"using UnityEngine;
 
-public class {_baseName}Model
+public class {ModuleName}Model
 {{
     // Model properties and logic here
 }}";
@@ -23,7 +20,7 @@ public class {_baseName}Model
         return
 $@"using UnityEngine;
 
-public class {_baseName}View : MonoBehaviour
+public class {ModuleName}View : MonoBehaviour
 {{
     // View components and UI handling here
 }}";
@@ -34,12 +31,12 @@ public class {_baseName}View : MonoBehaviour
         return
 $@"using UnityEngine;
 
-public class {_baseName}Presenter
+public class {ModuleName}Presenter
 {{
-    private {_baseName}Model _model;
-    private {_baseName}View _view;
+    private {ModuleName}Model _model;
+    private {ModuleName}View _view;
 
-    public {_baseName}Presenter({_baseName}Model model, {_baseName}View view)
+    public {ModuleName}Presenter({ModuleName}Model model, {ModuleName}View view)
     {{
         _model = model;
         _view = view;
@@ -54,23 +51,23 @@ public class {_baseName}Presenter
         return
 $@"using UnityEngine;
 
-[RequireComponent(typeof({_baseName}View), typeof(Bootstrap))]
-public class {_baseName}Manager : MonoBehaviour, IBootstrapable
+[RequireComponent(typeof({ModuleName}View), typeof(Bootstrap))]
+public class {ModuleName}Manager : MonoBehaviour, IBootstrapable
 {{
-    private {_baseName}Model _model;
-    private {_baseName}View _view;
-    private {_baseName}Presenter _presenter;
+    private {ModuleName}Model _model;
+    private {ModuleName}View _view;
+    private {ModuleName}Presenter _presenter;
 
-    public {_baseName}Presenter Presenter => _presenter;
+    public {ModuleName}Presenter Presenter => _presenter;
 
     public void BootstrapInit()
     {{
-        _model = new {_baseName}Model();
+        _model = new {ModuleName}Model();
 
         ModelInit();
 
-        _view = GetComponent<{_baseName}View>();
-        _presenter = new {_baseName}Presenter(_model, _view);
+        _view = GetComponent<{ModuleName}View>();
+        _presenter = new {ModuleName}Presenter(_model, _view);
     }}
 
     private void ModelInit()

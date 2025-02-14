@@ -1,34 +1,23 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
-public class MvpCreatorView : EditorWindow
+public class MvpCreatorView
 {
-    private string _baseName = "NewFeature";
-    private string _path;
+    public event Action OnCreate;
 
-    private MvpCreatorPresenter presenter;
-
-    [MenuItem("Assets/Create/MVP Module", false, 0)]
-    public static void ShowWindow()
+    public void DrawUI(MvpCreatorModel model)
     {
-        GetWindow<MvpCreatorView>("Create MVP Module");
-    }
+        GUILayout.Label("MVP Template Creator", EditorStyles.boldLabel);
 
-    private void OnEnable()
-    {
-        presenter = new MvpCreatorPresenter();
-    }
+        model.ModuleName = EditorGUILayout.TextField("Name", model.ModuleName);
+        model.Namespace = EditorGUILayout.TextField("Namespace", model.Namespace);
+        model.FolderPath = EditorGUILayout.TextField("Path", model.FolderPath);
 
-    private void OnGUI()
-    {
-        GUILayout.Label("MVP Template Generator", EditorStyles.boldLabel);
-
-        _baseName = EditorGUILayout.TextField("Base Name", _baseName);
-        _path = EditorGUILayout.TextField("Path", AssetDatabase.GetAssetPath(Selection.activeObject));
-
-        if (GUILayout.Button("Generate MVP Module"))
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Create"))
         {
-            presenter.CreateMvpScripts(_baseName, _path);
+            OnCreate?.Invoke();
         }
     }
 }

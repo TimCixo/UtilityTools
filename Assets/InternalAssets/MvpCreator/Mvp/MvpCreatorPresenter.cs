@@ -4,20 +4,35 @@ using System.IO;
 
 public class MvpCreatorPresenter
 {
-    public void CreateMvpScripts(string baseName, string path)
+    private MvpCreatorModel _model;
+    private MvpCreatorView _view;
+    
+    public MvpCreatorPresenter(MvpCreatorModel model, MvpCreatorView view)
     {
-        MvpCreatorModel model = new MvpCreatorModel(baseName);
-        string modulePath = Path.Combine(path, baseName);
+        _model = model;
+        _view = view;
+
+        _view.OnCreate += CreateMvpScripts;
+    }
+
+    public void OnGUI()
+    {
+        _view.DrawUI(_model);
+    }
+
+    public void CreateMvpScripts()
+    {
+        string modulePath = Path.Combine(_model.FolderPath, _model.ModuleName);
         
         if (!Directory.Exists(modulePath))
         {
             Directory.CreateDirectory(modulePath);
         }
 
-        CreateScript(modulePath, baseName + "Model.cs", model.GetModelTemplate());
-        CreateScript(modulePath, baseName + "View.cs", model.GetViewTemplate());
-        CreateScript(modulePath, baseName + "Presenter.cs", model.GetPresenterTemplate());
-        CreateScript(modulePath, baseName + "Manager.cs", model.GetManagerTemplate());
+        CreateScript(modulePath, _model.ModuleName + "Model.cs", _model.GetModelTemplate());
+        CreateScript(modulePath, _model.ModuleName + "View.cs", _model.GetViewTemplate());
+        CreateScript(modulePath, _model.ModuleName + "Presenter.cs", _model.GetPresenterTemplate());
+        CreateScript(modulePath, _model.ModuleName + "Manager.cs", _model.GetManagerTemplate());
 
         AssetDatabase.Refresh();
     }
