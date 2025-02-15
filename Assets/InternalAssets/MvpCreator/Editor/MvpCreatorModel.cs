@@ -6,6 +6,43 @@ namespace MvpCreator
         public string Namespace { get; set; }
         public string FolderPath { get; set; }
 
+        public string GetManagerTemplate()
+        {
+            return
+    $@"using UnityEngine;
+using MvpCreator;
+
+namespace {Namespace}
+{{
+    [RequireComponent(typeof({ModuleName}View), typeof(Bootstrap))]
+    public class {ModuleName}Manager : MonoBehaviour, IBootstrapable
+    {{
+        private {ModuleName}Model _model;
+        private {ModuleName}View _view;
+        private {ModuleName}Presenter _presenter;
+
+        public {ModuleName}Presenter Presenter => _presenter;
+
+        public void BootstrapInit()
+        {{
+            _model = new {ModuleName}Model();
+
+            ModelInit();
+
+            _view = GetComponent<{ModuleName}View>();
+            _presenter = new {ModuleName}Presenter(_model, _view);
+        }}
+
+        private void ModelInit()
+        {{
+            // Manager model initialization here
+        }}
+
+        // Manager logic here
+    }}
+}}";
+        }
+
         public string GetModelTemplate()
         {
             return
@@ -53,42 +90,6 @@ namespace {Namespace}
         }}
 
         // Presenter logic here
-    }}
-}}";
-        }
-
-        public string GetManagerTemplate()
-        {
-            return
-    $@"using UnityEngine;
-
-namespace {Namespace}
-{{
-    [RequireComponent(typeof({ModuleName}View), typeof(Bootstrap))]
-    public class {ModuleName}Manager : MonoBehaviour, IBootstrapable
-    {{
-        private {ModuleName}Model _model;
-        private {ModuleName}View _view;
-        private {ModuleName}Presenter _presenter;
-
-        public {ModuleName}Presenter Presenter => _presenter;
-
-        public void BootstrapInit()
-        {{
-            _model = new {ModuleName}Model();
-
-            ModelInit();
-
-            _view = GetComponent<{ModuleName}View>();
-            _presenter = new {ModuleName}Presenter(_model, _view);
-        }}
-
-        private void ModelInit()
-        {{
-            // Manager model initialization here
-        }}
-
-        // Manager logic here
     }}
 }}";
         }
