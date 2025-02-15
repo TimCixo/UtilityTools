@@ -7,6 +7,7 @@ namespace MvpCreator
     public class MvpCreatorView
     {
         private int _index = 0;
+        private Vector2 _scrollPosition;
         private string[] _modules = new string[] { "Manager", "Presenter", "Model", "View" };
         private GUIStyle _richTextStyle;
         private MvpCreatorModel _model;
@@ -39,12 +40,15 @@ namespace MvpCreator
             GUILayout.Label("Preview", EditorStyles.boldLabel);
             _index = GUILayout.Toolbar(_index, _modules);
 
-            EditorGUI.BeginDisabledGroup(true);
             string example = GetModuleExample(_index);
-            example = Highlight(example, _model.ModuleName, "yellow");
             example = Highlight(example, _model.Namespace, "green");
+            example = Highlight(example, _model.ModuleName, "yellow");
+            
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, GUILayout.Height(400));
+            EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.TextArea(example, _richTextStyle, GUILayout.ExpandHeight(true));
             EditorGUI.EndDisabledGroup();
+            EditorGUILayout.EndScrollView();
 
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Create"))
