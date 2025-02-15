@@ -14,6 +14,7 @@ namespace MvpCreator
         {
             MvpCreatorManager window = GetWindow<MvpCreatorManager>("Create MVP Module");
 
+            window.titleContent.image = EditorGUIUtility.IconContent("cs Script Icon").image;
             window.minSize = new Vector2(800, 600);
             window.maxSize = new Vector2(800, 600);
         }
@@ -24,7 +25,7 @@ namespace MvpCreator
 
             ModelInit();
 
-            _view = new MvpCreatorView();
+            _view = new MvpCreatorView(_model);
             _presenter = new MvpCreatorPresenter(_model, _view);
         }
 

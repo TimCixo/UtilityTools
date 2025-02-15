@@ -19,7 +19,7 @@ namespace MvpCreator
 
         public void OnGUI()
         {
-            _view.DrawUI(_model);
+            _view.DrawUI();
         }
 
         public void CreateMvpScripts()
