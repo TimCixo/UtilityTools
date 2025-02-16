@@ -8,7 +8,7 @@ namespace MvpCreator
     {
         private int _index = 0;
         private Vector2 _scrollPosition;
-        private string[] _modules = new string[] { "Manager", "Presenter", "Model", "View" };
+        private string[] _modules = new string[] { "Manager", "Model", "View", "Presenter" };
         private GUIStyle _richTextStyle;
         private MvpCreatorModel _model;
 
@@ -64,11 +64,11 @@ namespace MvpCreator
                 case 0:
                     return _model.GetManagerTemplate();
                 case 1:
-                    return _model.GetPresenterTemplate();
-                case 2:
                     return _model.GetModelTemplate();
-                case 3:
+                case 2:
                     return _model.GetViewTemplate();
+                case 3:
+                    return _model.GetPresenterTemplate();
                 default:
                     return string.Empty;
             }

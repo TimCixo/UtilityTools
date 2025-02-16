@@ -31,10 +31,10 @@ namespace MvpCreator
                 Directory.CreateDirectory(modulePath);
             }
 
+            CreateScript(modulePath, _model.ModuleName + "Manager.cs", _model.GetManagerTemplate());
             CreateScript(modulePath, _model.ModuleName + "Model.cs", _model.GetModelTemplate());
             CreateScript(modulePath, _model.ModuleName + "View.cs", _model.GetViewTemplate());
             CreateScript(modulePath, _model.ModuleName + "Presenter.cs", _model.GetPresenterTemplate());
-            CreateScript(modulePath, _model.ModuleName + "Manager.cs", _model.GetManagerTemplate());
 
             AssetDatabase.Refresh();
         }
