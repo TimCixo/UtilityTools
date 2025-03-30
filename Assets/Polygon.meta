@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Polygon.meta
 guid: 62fe116af454e5b4e99601c054c80a17
 folderAsset: yes
 DefaultImporter:
+========
+guid: 974717b47239cd64e9aa957693680025
+TextScriptImporter:
+>>>>>>>> ef44af1c1e5c35d3cea878bbdcce9360d78a678d:Assets/EmptyPrefab/README.md.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
