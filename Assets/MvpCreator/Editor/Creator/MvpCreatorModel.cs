@@ -2,6 +2,7 @@ namespace MvpCreator
 {
     public class MvpCreatorModel
     {
+        public bool CreateNewFolder { get; set; } = true;
         public string Namespace { get; set; }
         public string FolderPath { get; set; }
 

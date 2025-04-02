@@ -35,6 +35,11 @@ namespace MvpCreator
             }
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Create New Folder", GUILayout.Width(150));
+            _model.CreateNewFolder = EditorGUILayout.Toggle(_model.CreateNewFolder, GUILayout.Width(20));
+            EditorGUILayout.EndHorizontal();
+
             GUILayout.Space(10);
             GUILayout.Label("Preview", EditorStyles.boldLabel);
             _index = GUILayout.Toolbar(_index, _modules);
