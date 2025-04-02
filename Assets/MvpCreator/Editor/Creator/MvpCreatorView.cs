@@ -24,40 +24,86 @@ namespace MvpCreator
             EnsureStyles();
             GUILayout.Label("Parameters", EditorStyles.boldLabel);
 
-            _model.Namespace = EditorGUILayout.TextField("Namespace", _model.Namespace);
+            DrawNamespaceField();
+            DrawFolderPathField();
+            DrawNewFolderCheckbox();
 
+            GUILayout.Space(10);
+
+            DrawPrewiewSection();
+
+            GUILayout.FlexibleSpace();
+
+            DrawCreateButton(HasInvalidInput());
+        }
+
+        private void DrawNamespaceField()
+        {
+            _model.Namespace = EditorGUILayout.TextField("Namespace", _model.Namespace);
+        }
+
+        
+        private void DrawFolderPathField()
+        {
             EditorGUILayout.BeginHorizontal();
+
             _model.FolderPath = EditorGUILayout.TextField("Path", _model.FolderPath);
 
             if (GUILayout.Button("...", GUILayout.Width(30)))
             {
                 _model.FolderPath = EditorUtility.OpenFolderPanel("Select Folder", _model.FolderPath, "");
             }
-            EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawNewFolderCheckbox()
+        {
             EditorGUILayout.BeginHorizontal();
+
             EditorGUILayout.LabelField("Create New Folder", GUILayout.Width(150));
             _model.CreateNewFolder = EditorGUILayout.Toggle(_model.CreateNewFolder, GUILayout.Width(20));
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.LabelField(_model.Namespace, EditorStyles.label);
 
-            GUILayout.Space(10);
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawPrewiewSection()
+        {
             GUILayout.Label("Preview", EditorStyles.boldLabel);
             _index = GUILayout.Toolbar(_index, _modules);
 
             string example = GetModuleExample(_index);
-            example = Highlight(example, _model.Namespace, "green");
+            example = Highlight(example, $"namespace {_model.Namespace}", "green");
 
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, GUILayout.Height(400));
             EditorGUI.BeginDisabledGroup(true);
+
             EditorGUILayout.TextArea(example, _richTextStyle, GUILayout.ExpandHeight(true));
+
             EditorGUI.EndDisabledGroup();
             EditorGUILayout.EndScrollView();
+        }
 
-            GUILayout.FlexibleSpace();
+        private void DrawCreateButton(bool disable)
+        {
+            EditorGUI.BeginDisabledGroup(disable);
             if (GUILayout.Button("Create"))
             {
                 OnCreate?.Invoke();
             }
+            EditorGUI.EndDisabledGroup();
+        }
+
+        private bool HasInvalidInput()
+        {
+            if (string.IsNullOrEmpty(_model.Namespace))
+            {
+                EditorGUILayout.HelpBox("Namespace cannot be empty.", MessageType.Warning);
+                return true;
+            }
+
+            return false;
         }
 
         private string GetModuleExample(int index)
