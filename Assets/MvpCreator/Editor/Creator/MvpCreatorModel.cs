@@ -2,7 +2,6 @@ namespace MvpCreator
 {
     public class MvpCreatorModel
     {
-        public string ModuleName { get; set; }
         public string Namespace { get; set; }
         public string FolderPath { get; set; }
 
@@ -14,23 +13,23 @@ using MvpCreator;
 
 namespace {Namespace}
 {{
-    [RequireComponent(typeof({ModuleName}View), typeof(Bootstrap))]
-    public class {ModuleName}Manager : MonoBehaviour, IBootstrapable
+    [RequireComponent(typeof(View), typeof(Bootstrap))]
+    public class Manager : MonoBehaviour, IBootstrapable
     {{
-        private {ModuleName}Model _model;
-        private {ModuleName}View _view;
-        private {ModuleName}Presenter _presenter;
+        private Model _model;
+        private View _view;
+        private Presenter _presenter;
 
-        public {ModuleName}Presenter Presenter => _presenter;
+        public Presenter Presenter => _presenter;
 
         public void BootstrapInit()
         {{
-            _model = new {ModuleName}Model();
+            _model = new Model();
 
             ModelInit();
 
-            _view = GetComponent<{ModuleName}View>();
-            _presenter = new {ModuleName}Presenter(_model, _view);
+            _view = GetComponent<View>();
+            _presenter = new Presenter(_model, _view);
         }}
 
         private void ModelInit()
@@ -50,7 +49,7 @@ namespace {Namespace}
 
 namespace {Namespace}
 {{
-    public class {ModuleName}Model
+    public class Model
     {{
         // Model properties and logic here
     }}
@@ -64,7 +63,7 @@ namespace {Namespace}
 
 namespace {Namespace}
 {{
-    public class {ModuleName}View : MonoBehaviour
+    public class View : MonoBehaviour
     {{
         // View components and UI handling here
     }}
@@ -78,12 +77,12 @@ namespace {Namespace}
 
 namespace {Namespace}
 {{
-    public class {ModuleName}Presenter
+    public class Presenter
     {{
-        private {ModuleName}Model _model;
-        private {ModuleName}View _view;
+        private Model _model;
+        private View _view;
 
-        public {ModuleName}Presenter({ModuleName}Model model, {ModuleName}View view)
+        public Presenter(Model model, View view)
         {{
             _model = model;
             _view = view;

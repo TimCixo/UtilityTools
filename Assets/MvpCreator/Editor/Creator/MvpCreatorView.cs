@@ -24,7 +24,6 @@ namespace MvpCreator
             EnsureStyles();
             GUILayout.Label("Parameters", EditorStyles.boldLabel);
 
-            _model.ModuleName = EditorGUILayout.TextField("Name", _model.ModuleName);
             _model.Namespace = EditorGUILayout.TextField("Namespace", _model.Namespace);
 
             EditorGUILayout.BeginHorizontal();
@@ -42,8 +41,7 @@ namespace MvpCreator
 
             string example = GetModuleExample(_index);
             example = Highlight(example, _model.Namespace, "green");
-            example = Highlight(example, _model.ModuleName, "yellow");
-            
+
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, GUILayout.Height(400));
             EditorGUI.BeginDisabledGroup(true);
             EditorGUILayout.TextArea(example, _richTextStyle, GUILayout.ExpandHeight(true));

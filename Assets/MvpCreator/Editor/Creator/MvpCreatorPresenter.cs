@@ -24,17 +24,17 @@ namespace MvpCreator
 
         public void CreateMvpScripts()
         {
-            string modulePath = Path.Combine(_model.FolderPath, _model.ModuleName);
+            string modulePath = Path.Combine(_model.FolderPath, _model.Namespace);
 
             if (!Directory.Exists(modulePath))
             {
                 Directory.CreateDirectory(modulePath);
             }
 
-            CreateScript(modulePath, _model.ModuleName + "Manager.cs", _model.GetManagerTemplate());
-            CreateScript(modulePath, _model.ModuleName + "Model.cs", _model.GetModelTemplate());
-            CreateScript(modulePath, _model.ModuleName + "View.cs", _model.GetViewTemplate());
-            CreateScript(modulePath, _model.ModuleName + "Presenter.cs", _model.GetPresenterTemplate());
+            CreateScript(modulePath, "Manager.cs", _model.GetManagerTemplate());
+            CreateScript(modulePath, "Model.cs", _model.GetModelTemplate());
+            CreateScript(modulePath, "View.cs", _model.GetViewTemplate());
+            CreateScript(modulePath, "Presenter.cs", _model.GetPresenterTemplate());
 
             AssetDatabase.Refresh();
         }
