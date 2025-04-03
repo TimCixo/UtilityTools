@@ -51,7 +51,6 @@ namespace MvpCreator
             _model.Namespace = EditorGUILayout.TextField("Namespace", _model.Namespace);
         }
 
-        
         private void DrawFolderPathField()
         {
             EditorGUILayout.BeginHorizontal();
