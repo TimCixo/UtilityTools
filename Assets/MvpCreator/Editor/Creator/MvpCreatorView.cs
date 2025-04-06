@@ -8,11 +8,11 @@ namespace MvpCreator
     {
         private int _index = 0;
         private string _previousNamespace = "";
-        private Vector2 _scrollPosition;
         private string[] _modules = new string[] { "Manager", "Model", "View", "Presenter" };
-        private Func<string>[] _moduleTemplates;
+        private Vector2 _scrollPosition;
         private GUIStyle _richTextStyle;
         private MvpCreatorModel _model;
+        private Func<string>[] _moduleTemplates;
 
         public event Action OnCreate;
 
