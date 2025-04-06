@@ -35,6 +35,7 @@ namespace MvpCreator
             GUILayout.Label("Parameters", EditorStyles.boldLabel);
 
             DrawNamespaceField();
+            DrawPrefixField();
             DrawFolderPathField();
             DrawNewFolderCheckbox();
 
@@ -51,6 +52,11 @@ namespace MvpCreator
         {
             _previousNamespace = _model.Namespace;
             _model.Namespace = EditorGUILayout.TextField("Namespace", _model.Namespace);
+        }
+
+        private void DrawPrefixField()
+        {
+            _model.Prefix = EditorGUILayout.TextField("Prefix", _model.Prefix);
         }
 
         private void DrawFolderPathField()
@@ -92,7 +98,11 @@ namespace MvpCreator
             _index = GUILayout.Toolbar(_index, _modules);
 
             string example = _moduleTemplates[_index]();
-            example = Highlight(example, $"namespace {_model.Namespace}", "green");
+            example = Highlight(example, $"namespace {_model.Namespace}", "yellow");
+            example = Highlight(example, $"{_model.Prefix}Manager", "yellow");
+            example = Highlight(example, $"{_model.Prefix}Model", "yellow");
+            example = Highlight(example, $"{_model.Prefix}View", "yellow");
+            example = Highlight(example, $"{_model.Prefix}Presenter", "yellow");
 
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, GUILayout.Height(400));
             EditorGUI.BeginDisabledGroup(true);
@@ -126,6 +136,11 @@ namespace MvpCreator
 
         private string Highlight(string text, string value, string color)
         {
+            if (text.Length <= 0 || value.Length <= 0)
+            {
+                return text;
+            }
+
             return text.Replace(value, $"<color={color}>{value}</color>");
         }
 
