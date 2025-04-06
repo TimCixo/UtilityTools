@@ -7,6 +7,7 @@ namespace MvpCreator
     public class MvpCreatorView
     {
         private int _index = 0;
+        private string _previousNamespace = "";
         private Vector2 _scrollPosition;
         private string[] _modules = new string[] { "Manager", "Model", "View", "Presenter" };
         private Func<string>[] _moduleTemplates;
@@ -48,6 +49,7 @@ namespace MvpCreator
 
         private void DrawNamespaceField()
         {
+            _previousNamespace = _model.Namespace;
             _model.Namespace = EditorGUILayout.TextField("Namespace", _model.Namespace);
         }
 
@@ -71,7 +73,15 @@ namespace MvpCreator
 
             EditorGUILayout.LabelField("Create New Folder", GUILayout.Width(150));
             _model.CreateNewFolder = EditorGUILayout.Toggle(_model.CreateNewFolder, GUILayout.Width(20));
-            EditorGUILayout.LabelField(_model.Namespace, EditorStyles.label);
+
+            if (_model.NewFolderName.Length <= 0 || _model.NewFolderName == _previousNamespace)
+            {
+                _model.NewFolderName = _model.Namespace;
+            }
+
+            EditorGUI.BeginDisabledGroup(!_model.CreateNewFolder);
+            _model.NewFolderName = EditorGUILayout.TextField(_model.NewFolderName);
+            EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.EndHorizontal();
         }
