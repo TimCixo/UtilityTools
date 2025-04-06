@@ -1,11 +1,14 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace MvpCreator
 {
     public class MvpCreatorView
     {
+        private bool _disableCreateButton = true;
         private int _index = 0;
         private string _previousNamespace = "";
         private string[] _modules = new string[] { "Manager", "Model", "View", "Presenter" };
@@ -32,6 +35,7 @@ namespace MvpCreator
         public void DrawUI()
         {
             EnsureStyles();
+            _disableCreateButton = false;
             GUILayout.Label("Parameters", EditorStyles.boldLabel);
 
             DrawNamespaceField();
@@ -45,18 +49,40 @@ namespace MvpCreator
 
             GUILayout.FlexibleSpace();
 
-            DrawCreateButton(HasInvalidInput());
+            DrawCreateButton();
         }
 
         private void DrawNamespaceField()
         {
+            Regex NamespaceRegex = new(@"^([_\p{L}][_\p{L}\p{N}]*)(\.[_\p{L}][_\p{L}\p{N}]*)*$", RegexOptions.Compiled);
+
             _previousNamespace = _model.Namespace;
             _model.Namespace = EditorGUILayout.TextField("Namespace", _model.Namespace);
+
+
+            if (string.IsNullOrEmpty(_model.Namespace))
+            {
+                EditorGUILayout.HelpBox("Namespace cannot be empty.", MessageType.Warning);
+                _disableCreateButton = true;
+            }
+            else if (!NamespaceRegex.IsMatch(_model.Namespace))
+            {
+                EditorGUILayout.HelpBox("Namespace is not valid.", MessageType.Warning);
+                _disableCreateButton = true;
+            }
         }
 
         private void DrawPrefixField()
         {
+            Regex ClassNameRegex = new(@"^[_\p{L}][_\p{L}\p{N}]*$", RegexOptions.Compiled);
+
             _model.Prefix = EditorGUILayout.TextField("Prefix", _model.Prefix);
+
+            if (!ClassNameRegex.IsMatch(_model.Prefix) && _model.Prefix.Length > 0)
+            {
+                EditorGUILayout.HelpBox("Prefix is not valid.", MessageType.Warning);
+                _disableCreateButton = true;
+            }
         }
 
         private void DrawFolderPathField()
@@ -71,6 +97,12 @@ namespace MvpCreator
             }
 
             EditorGUILayout.EndHorizontal();
+
+            if (!Directory.Exists(_model.FolderPath))
+            {
+                EditorGUILayout.HelpBox("Folder path is not valid.", MessageType.Warning);
+                _disableCreateButton = true;
+            }
         }
 
         private void DrawNewFolderCheckbox()
@@ -90,6 +122,17 @@ namespace MvpCreator
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.EndHorizontal();
+
+            if (_model.NewFolderName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 && _model.CreateNewFolder)
+            {
+                EditorGUILayout.HelpBox("New folder name cannot contain invalid characters.", MessageType.Warning);
+                _disableCreateButton = true;
+            }
+            else if (string.IsNullOrEmpty(_model.NewFolderName) && _model.CreateNewFolder)
+            {
+                EditorGUILayout.HelpBox("New folder name cannot be empty.", MessageType.Warning);
+                _disableCreateButton = true;
+            }
         }
 
         private void DrawPrewiewSection()
@@ -113,25 +156,14 @@ namespace MvpCreator
             EditorGUILayout.EndScrollView();
         }
 
-        private void DrawCreateButton(bool disable)
+        private void DrawCreateButton()
         {
-            EditorGUI.BeginDisabledGroup(disable);
+            EditorGUI.BeginDisabledGroup(_disableCreateButton);
             if (GUILayout.Button("Create"))
             {
                 OnCreate?.Invoke();
             }
             EditorGUI.EndDisabledGroup();
-        }
-
-        private bool HasInvalidInput()
-        {
-            if (string.IsNullOrEmpty(_model.Namespace))
-            {
-                EditorGUILayout.HelpBox("Namespace cannot be empty.", MessageType.Warning);
-                return true;
-            }
-
-            return false;
         }
 
         private string Highlight(string text, string value, string color)
