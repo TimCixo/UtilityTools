@@ -12,7 +12,8 @@ namespace MvpCreator
         private int _index = 0;
         private string _previousNamespace = "";
         private string[] _modules = new string[] { "Manager", "Model", "View", "Presenter" };
-        private Vector2 _scrollPosition;
+        private Vector2 _previewScrollPosition;
+        private Vector2 _formScrollPosition;
         private GUIStyle _richTextStyle;
         private MvpCreatorModel _model;
         private Func<string>[] _moduleTemplates;
@@ -36,6 +37,8 @@ namespace MvpCreator
         {
             EnsureStyles();
             _disableCreateButton = false;
+            _formScrollPosition = EditorGUILayout.BeginScrollView(_formScrollPosition);
+
             GUILayout.Label("Parameters", EditorStyles.boldLabel);
 
             DrawNamespaceField();
@@ -48,6 +51,7 @@ namespace MvpCreator
             DrawPrewiewSection();
 
             GUILayout.FlexibleSpace();
+            EditorGUILayout.EndScrollView();
 
             DrawCreateButton();
         }
@@ -147,7 +151,7 @@ namespace MvpCreator
             example = Highlight(example, $"{_model.Prefix}View", "yellow");
             example = Highlight(example, $"{_model.Prefix}Presenter", "yellow");
 
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, GUILayout.Height(400));
+            _previewScrollPosition = EditorGUILayout.BeginScrollView(_previewScrollPosition, GUILayout.Height(400));
             EditorGUI.BeginDisabledGroup(true);
 
             EditorGUILayout.TextArea(example, _richTextStyle, GUILayout.ExpandHeight(true));
