@@ -24,7 +24,12 @@ namespace MvpCreator
 
         public void CreateMvpScripts()
         {
-            string modulePath = Path.Combine(_model.FolderPath, _model.Namespace);
+            string modulePath = _model.FolderPath;
+
+            if (_model.CreateNewFolder)
+            {
+                modulePath = Path.Combine(modulePath, _model.Namespace);
+            }
 
             if (!Directory.Exists(modulePath))
             {
