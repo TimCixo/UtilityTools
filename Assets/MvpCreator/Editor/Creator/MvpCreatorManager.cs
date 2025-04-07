@@ -31,8 +31,11 @@ namespace MvpCreator
 
         private void ModelInit()
         {
+            _model.CreateNewFolder = true;
             _model.Namespace = "NewNamespace";
+            _model.Prefix = "";
             _model.FolderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            _model.NewFolderName = _model.Namespace;
         }
 
         private void OnGUI()
