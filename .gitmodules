@@ -1,0 +1,3 @@
+[submodule "Assets/MvpCreator"]
+	path = Assets/MvpCreator
+	url = https://github.com/TimCixo/MVP-Creator.git
