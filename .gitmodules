@@ -1,3 +1,6 @@
 [submodule "Assets/MvpCreator"]
 	path = Assets/MvpCreator
 	url = https://github.com/TimCixo/MVP-Creator.git
+[submodule "Empty-Prefab"]
+	path = Empty-Prefab
+	url = https://github.com/TimCixo/Empty-Prefab.git
